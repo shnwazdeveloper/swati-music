@@ -1,0 +1,26 @@
+# Copyright (c) 2025 AnonymousX1025
+# Licensed under the MIT License.
+# This file is part of AnonXMusic
+
+import os
+from aiohttp import web
+from anony import logger
+
+async def health_check(request: web.Request) -> web.Response:
+    return web.json_response({
+        "status": "online",
+        "bot": "AviaxMusic",
+        "health": "ok"
+    })
+
+async def start_server() -> None:
+    port = int(os.getenv("PORT", 8080))
+    app = web.Application()
+    app.router.add_get("/", health_check)
+    app.router.add_get("/health", health_check)
+    
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, "0.0.0.0", port)
+    await site.start()
+    logger.info(f"Web server successfully started on port {port} for Render health checks.")
