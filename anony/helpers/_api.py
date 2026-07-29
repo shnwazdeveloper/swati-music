@@ -12,12 +12,12 @@ import aiofiles
 class NexGenApi:
     def __init__(
             self, api_url: str, api_key: str, video_api_url: str,
-            retries: int = 2, timeout: int = 5,
+            retries: int = 1, timeout: float = 1.5,
         ):
         self.api_url = api_url
         self.video_api_url = video_api_url
         self.api_key = api_key
-        self.chunk_limit = 512 * 1024
+        self.chunk_limit = 1024 * 1024
         self.dl_cache = {}
         self.v_cache = {}
         self.retries = retries

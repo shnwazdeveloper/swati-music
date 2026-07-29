@@ -156,11 +156,12 @@ class YouTube:
             "no_warnings": True,
             "overwrites": False,
             "nocheckcertificate": True,
-            "concurrent_fragment_downloads": 8,
+            "socket_timeout": 5,
+            "concurrent_fragment_downloads": 10,
             "buffersize": 1024 * 1024,
-            "retries": 3,
-            "fragment_retries": 3,
-            "extractor_retries": 2,
+            "retries": 2,
+            "fragment_retries": 2,
+            "extractor_retries": 1,
             "cachedir": False,
             "extractor_args": {
                 "youtube": {
