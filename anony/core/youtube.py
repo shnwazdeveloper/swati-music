@@ -156,6 +156,12 @@ class YouTube:
             "no_warnings": True,
             "overwrites": False,
             "nocheckcertificate": True,
+            "concurrent_fragment_downloads": 8,
+            "buffersize": 1024 * 1024,
+            "retries": 3,
+            "fragment_retries": 3,
+            "extractor_retries": 2,
+            "cachedir": False,
             "extractor_args": {
                 "youtube": {
                     "player_client": ["mweb", "android", "web", "ios"]
@@ -175,7 +181,7 @@ class YouTube:
         else:
             ydl_opts = {
                 **base_opts,
-                "format": "bestaudio/best",
+                "format": "bestaudio[ext=m4a]/bestaudio[ext=webm]/bestaudio/best",
             }
 
         def _download(opts):
