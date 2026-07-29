@@ -44,16 +44,17 @@ class YouTube:
 
     def get_cookies(self):
         os.makedirs(self.cookie_dir, exist_ok=True)
-        if not self.checked:
-            if os.path.exists(self.cookie_dir):
-                for file in os.listdir(self.cookie_dir):
-                    if file.endswith(".txt"):
-                        self.cookies.append(f"{self.cookie_dir}/{file}")
-            self.checked = True
+        self.cookies = []
+        if os.path.exists(self.cookie_dir):
+            for file in os.listdir(self.cookie_dir):
+                if file.endswith(".txt"):
+                    file_path = f"{self.cookie_dir}/{file}"
+                    if os.path.getsize(file_path) > 0:
+                        self.cookies.append(file_path)
         if not self.cookies:
             if not self.warned:
                 self.warned = True
-                logger.warning("Cookies are missing; downloads will use default client fallbacks.")
+                logger.warning("Cookies are missing or empty; downloads will use default client fallbacks.")
             return None
         return random.choice(self.cookies)
 
@@ -74,8 +75,6 @@ class YouTube:
                             cookie_file = f"{self.cookie_dir}/cookie_{idx}.txt"
                             with open(cookie_file, "wb") as fw:
                                 fw.write(content)
-                            if cookie_file not in self.cookies:
-                                self.cookies.append(cookie_file)
                             logger.info(f"Successfully downloaded cookie from {target_url}")
                         else:
                             logger.warning(f"Failed to fetch cookie from {target_url}, status: {resp.status}")
@@ -135,8 +134,11 @@ class YouTube:
 
     async def download(self, video_id: str, video: bool = False) -> str | None:
         if self.api:
-            if file_path := await self.api.download(video_id, video):
-                return file_path
+            try:
+                if file_path := await self.api.download(video_id, video):
+                    return file_path
+            except Exception as api_err:
+                logger.warning(f"NexGenApi download error: {api_err}")
 
         url = self.base + video_id
         os.makedirs("downloads", exist_ok=True)
@@ -156,8 +158,7 @@ class YouTube:
             "nocheckcertificate": True,
             "extractor_args": {
                 "youtube": {
-                    "player_client": ["android", "web", "ios"],
-                    "skip": ["configs", "webpage"],
+                    "player_client": ["mweb", "android", "web", "ios"]
                 }
             },
         }
@@ -192,11 +193,21 @@ class YouTube:
                     return str(dl)
             return None
 
+        # Attempt 1: primary opts (with cookies if available)
         result = await asyncio.to_thread(_download, ydl_opts)
+        
+        # Attempt 2: fallback without cookies if primary failed
         if not result and cookie:
-            # Fallback without cookie if cookie failed
+            logger.info("Retrying download without cookiefile fallback...")
             fallback_opts = dict(ydl_opts)
             fallback_opts.pop("cookiefile", None)
             result = await asyncio.to_thread(_download, fallback_opts)
+
+        # Attempt 3: generic format fallback
+        if not result:
+            logger.info("Retrying download with generic audio/video format fallback...")
+            generic_opts = dict(base_opts)
+            generic_opts["format"] = "best"
+            result = await asyncio.to_thread(_download, generic_opts)
 
         return result
