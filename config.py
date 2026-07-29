@@ -27,7 +27,7 @@ class Config:
 
         self.API_URL = getenv("API_URL", "https://pvtz.nexgenbots.xyz")
         self.VIDEO_API_URL = getenv("VIDEO_API_URL", "https://api.video.nexgenbots.xyz")
-        self.API_KEY = getenv("30DxNexGenBotseb4bc6", None) # Get this value from https://console.nexgenbots.xyz
+        self.API_KEY = getenv("API_KEY", getenv("30DxNexGenBotseb4bc6", None))
 
         self.AUTO_LEAVE: bool = getenv("AUTO_LEAVE", "False").lower() == "true"
         self.AUTO_END: bool = getenv("AUTO_END", "False").lower() == "true"
@@ -37,9 +37,11 @@ class Config:
 
         self.LANG_CODE = getenv("LANG_CODE", "en")
 
+        import re
+        raw_cookies = getenv("COOKIES_URL", "")
         self.COOKIES_URL = [
-            url for url in getenv("COOKIES_URL", "").split(" ")
-            if url and "batbin.me" in url
+            url.strip() for url in re.split(r"[\s,;]+", raw_cookies)
+            if url.strip() and url.strip().startswith("http")
         ]
         self.DEFAULT_THUMB = getenv("DEFAULT_THUMB", "https://te.legra.ph/file/3e40a408286d4eda24191.jpg")
         self.PING_IMG = getenv("PING_IMG", "https://files.catbox.moe/haagg2.png")

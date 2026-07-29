@@ -61,13 +61,26 @@ class YouTube:
         logger.info("Saving cookies from urls...")
         os.makedirs(self.cookie_dir, exist_ok=True)
         async with aiohttp.ClientSession() as session:
-            for url in urls:
-                name = url.split("/")[-1]
-                link = "https://batbin.me/raw/" + name
-                async with session.get(link) as resp:
-                    resp.raise_for_status()
-                    with open(f"{self.cookie_dir}/{name}.txt", "wb") as fw:
-                        fw.write(await resp.read())
+            for idx, url in enumerate(urls, 1):
+                try:
+                    target_url = url
+                    if "batbin.me" in url and "/raw/" not in url:
+                        name = url.rstrip("/").split("/")[-1]
+                        target_url = f"https://batbin.me/raw/{name}"
+                    
+                    async with session.get(target_url, timeout=15) as resp:
+                        if resp.status == 200:
+                            content = await resp.read()
+                            cookie_file = f"{self.cookie_dir}/cookie_{idx}.txt"
+                            with open(cookie_file, "wb") as fw:
+                                fw.write(content)
+                            if cookie_file not in self.cookies:
+                                self.cookies.append(cookie_file)
+                            logger.info(f"Successfully downloaded cookie from {target_url}")
+                        else:
+                            logger.warning(f"Failed to fetch cookie from {target_url}, status: {resp.status}")
+                except Exception as e:
+                    logger.warning(f"Error downloading cookie from {url}: {e}")
         logger.info(f"Cookies saved in {self.cookie_dir}.")
 
     def valid(self, url: str) -> bool:
