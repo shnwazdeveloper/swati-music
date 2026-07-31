@@ -83,9 +83,10 @@ class YouTube:
 
     async def search(self, query: str, m_id: int, video: bool = False) -> Track | None:
         try:
-            api_endpoint = f"https://shnwazdev-ytmusicapi.vercel.app/api/search?q={query}"
+            from urllib.parse import quote
+            api_endpoint = f"https://shnwazdev-ytmusicapi.vercel.app/api/search?q={quote(query)}"
             async with aiohttp.ClientSession() as session:
-                async with session.get(api_endpoint, timeout=5) as resp:
+                async with session.get(api_endpoint, timeout=10) as resp:
                     if resp.status == 200:
                         json_data = await resp.read()
                         import json
@@ -98,7 +99,13 @@ class YouTube:
                                     v_duration = item.get("duration") or "0:00"
                                     v_thumbs = item.get("thumbnails", [])
                                     thumb_url = v_thumbs[-1].get("url") if v_thumbs and isinstance(v_thumbs[-1], dict) else f"https://i.ytimg.com/vi/{vid_id}/hqdefault.jpg"
-                                    v_artists = item.get("artistsText") or "YouTube Music"
+                                    v_artists = "YouTube Music"
+                                    if item.get("artists") and isinstance(item["artists"], list):
+                                        names = [a.get("name") for a in item["artists"] if isinstance(a, dict) and a.get("name")]
+                                        if names:
+                                            v_artists = ", ".join(names)
+                                    elif item.get("artistsText"):
+                                        v_artists = item.get("artistsText")
                                     
                                     return Track(
                                         id=vid_id,

@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 shnwazdeveloper
+# Copyright (c) 2025 shnwazdeveloper
 # Licensed under the MIT License.
 # This file is part of Swati Music
 
@@ -36,12 +36,20 @@ async def start(_, message: types.Message):
     )
 
     key = buttons.start_key(message.lang, private)
-    await message.reply_photo(
-        photo=config.START_IMG,
-        caption=_text,
-        reply_markup=key,
-        quote=not private,
-    )
+    try:
+        await message.reply_photo(
+            photo=config.START_IMG,
+            caption=_text,
+            reply_markup=key,
+            quote=not private,
+        )
+    except Exception as ex:
+        logger.warning(f"start reply_photo failed: {ex}, falling back to reply_text")
+        await message.reply_text(
+            text=_text,
+            reply_markup=key,
+            quote=not private,
+        )
 
     if private:
         if await db.is_user(message.from_user.id):
