@@ -24,12 +24,12 @@ async def idle():
     await stop_event.wait()
 
 async def main():
+    await start_server()
     await db.connect()
     await app.boot()
     await userbot.boot()
     await anon.boot()
     await thumb.start()
-    await start_server()
 
     for module in all_modules:
         importlib.import_module(f"anony.plugins.{module}")
