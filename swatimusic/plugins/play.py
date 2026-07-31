@@ -35,6 +35,12 @@ async def play_hndlr(
     video: bool = False,
     url: str = None,
 ) -> None:
+    cmd = m.command[0].lower() if m.command else ""
+    if "force" in cmd:
+        force = True
+    if "v" in cmd:
+        video = True
+
     sent = await m.reply_text(m.lang["play_searching"])
     file = None
     mention = m.from_user.mention
