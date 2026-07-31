@@ -1,6 +1,6 @@
-# Copyright (c) 2025 AnonymousX1025
+﻿# Copyright (c) 2025 shnwazdeveloper
 # Licensed under the MIT License.
-# This file is part of AnonXMusic
+# This file is part of Swati Music
 
 import asyncio
 from pyrogram import enums, filters, types
@@ -30,9 +30,9 @@ async def start(_, message: types.Message):
 
     private = message.chat.type == enums.ChatType.PRIVATE
     _text = (
-        message.lang["start_pm"].format(message.from_user.first_name, app.name)
+        message.lang["start_pm"].format(message.from_user.first_name)
         if private
-        else message.lang["start_gp"].format(app.name)
+        else message.lang["start_gp"]
     )
 
     key = buttons.start_key(message.lang, private)

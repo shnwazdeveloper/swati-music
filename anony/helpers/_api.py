@@ -1,6 +1,6 @@
-# Copyright (c) 2026 CyberPixelPro
+﻿# Copyright (c) 2026 CyberPixelPro
 # Licensed under the MIT License.
-# This file is part of AviaxMusic
+# This file is part of Swati Music
 
 import re
 import asyncio

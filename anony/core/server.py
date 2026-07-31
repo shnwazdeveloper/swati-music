@@ -1,6 +1,6 @@
-# Copyright (c) 2025 AnonymousX1025
+﻿# Copyright (c) 2025 shnwazdeveloper
 # Licensed under the MIT License.
-# This file is part of AnonXMusic
+# This file is part of Swati Music
 
 import os
 from aiohttp import web
@@ -9,7 +9,7 @@ from anony import logger
 async def health_check(request: web.Request) -> web.Response:
     return web.json_response({
         "status": "online",
-        "bot": "AviaxMusic",
+        "bot": "Swati Music",
         "health": "ok"
     })
 

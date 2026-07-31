@@ -1,6 +1,6 @@
-services:
+﻿services:
   - type: web
-    name: aviaxmusic
+    name: Swati Music
     env: python
     buildCommand: "pip install -U pip && pip install -U -r requirements.txt"
     startCommand: "bash start"
