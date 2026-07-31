@@ -26,13 +26,17 @@
 
 ---
 
-## 🚀 One-Click Deploy to Render
+## 🚀 One-Click Hosting Options
 
-You can easily host this bot for free 24/7 on Render. Click the button below, fill in your environment variables, and deploy!
+Deploy Swati Music effortlessly 24/7 on **Render** or **Railway**:
 
 <p align="center">
   <a href="https://render.com/deploy?repo=https://github.com/shnwazdeveloper/swati-music">
     <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://railway.app/new">
+    <img src="https://railway.app/button.svg" alt="Deploy on Railway">
   </a>
 </p>
 
