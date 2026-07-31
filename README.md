@@ -20,6 +20,22 @@
 - ⚡ **Optimized Assistant VC Join**: Instant assistant account channel/group join with reduced latency.
 - 🌐 **Built-in Web Health Check**: Exposes `/health` and `/apikey` endpoints on port `$PORT` (default 8080) for 24/7 web hosting support.
 
+## 📖 About
+
+**Swati Music** is a high-performance Telegram Voice Chat bot that allows users to play music and video streams directly in their Telegram groups. Designed with a custom integration of `shnwazdev-ytmusicapi`, it provides instant search and playback speeds without the common lag found in traditional bots. Built completely on modern Python asynchronously, it supports custom premium emojis, playlist queuing, and 24/7 web hosting.
+
+---
+
+## 🚀 One-Click Deploy to Render
+
+You can easily host this bot for free 24/7 on Render. Click the button below, fill in your environment variables, and deploy!
+
+<p align="center">
+  <a href="https://render.com/deploy?repo=https://github.com/shnwazdeveloper/swati-music">
+    <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
+  </a>
+</p>
+
 ---
 
 ## 🛠️ Required Environment Variables
@@ -29,14 +45,14 @@
 | `API_ID` | Telegram API ID from [my.telegram.org](https://my.telegram.org) |
 | `API_HASH` | Telegram API Hash from [my.telegram.org](https://my.telegram.org) |
 | `BOT_TOKEN` | Bot Token from [@BotFather](https://t.me/BotFather) |
-| `MONGO_DB_URI` | MongoDB connection URL |
+| `MONGO_URL` | MongoDB connection URL |
 | `OWNER_ID` | Telegram User ID of the Bot Owner |
-| `STRING_SESSION` | Pyrogram String Session for the Assistant Account |
-| `LOG_GROUP_ID` | Log Group Telegram Chat ID |
+| `SESSION` | Pyrogram String Session for the Assistant Account |
+| `LOGGER_ID` | Log Group Telegram Chat ID |
 
 ---
 
-## 🚀 Quick Setup & VPS Deployment
+## 🚀 Manual VPS Deployment
 
 ### 1. Prerequisites
 - Python 3.10+
@@ -55,14 +71,10 @@ git clone https://github.com/shnwazdeveloper/swati-music
 cd swati-music
 
 # Install Python Dependencies
-pip3 install -r requirements.txt
-
-# Configure Environment Variables
-cp sample.env .env
-nano .env
+pip3 install -U -r requirements.txt
 
 # Run Bot
-python3 -m swatimusic
+bash start
 ```
 
 ---
