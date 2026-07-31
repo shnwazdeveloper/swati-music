@@ -62,7 +62,7 @@ cp sample.env .env
 nano .env
 
 # Run Bot
-python3 -m anony
+python3 -m swatimusic
 ```
 
 ---
