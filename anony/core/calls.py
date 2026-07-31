@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 shnwazdeveloper
+# Copyright (c) 2025 shnwazdeveloper
 # Licensed under the MIT License.
 # This file is part of Swati Music
 
@@ -40,6 +40,11 @@ class TgCall(PyTgCalls):
             await client.leave_call(chat_id, close=False)
         except Exception:
             pass
+
+    async def _prefetch_next(self, chat_id: int) -> None:
+        next_media = queue.get_next(chat_id, check=True)
+        if next_media and not next_media.file_path:
+            next_media.file_path = await yt.download(next_media.id, video=next_media.video)
 
 
     async def play_media(
@@ -115,6 +120,11 @@ class TgCall(PyTgCalls):
                             reply_markup=keyboard,
                         )
                     media.message_id = sent.id
+                
+                # Eagerly download the next track in the background
+                import asyncio
+                asyncio.create_task(self._prefetch_next(chat_id))
+                
         except FileNotFoundError:
             await message.edit_text(_lang["error_no_file"].format(config.SUPPORT_CHAT))
             await self.play_next(chat_id)

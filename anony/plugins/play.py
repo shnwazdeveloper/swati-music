@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 shnwazdeveloper
+# Copyright (c) 2025 shnwazdeveloper
 # Licensed under the MIT License.
 # This file is part of Swati Music
 
@@ -113,6 +113,9 @@ async def play_hndlr(
                     chat_id=m.chat.id,
                     text=m.lang["playlist_queued"].format(len(tracks)) + added,
                 )
+            
+            import asyncio
+            asyncio.create_task(anon._prefetch_next(m.chat.id))
             return
 
     if not file.file_path:
@@ -131,3 +134,5 @@ async def play_hndlr(
         chat_id=m.chat.id,
         text=m.lang["playlist_queued"].format(len(tracks)) + added,
     )
+    import asyncio
+    asyncio.create_task(anon._prefetch_next(m.chat.id))
