@@ -29,10 +29,11 @@ def checkUB(play):
         if len(queue.get_queue(chat_id)) >= config.QUEUE_LIMIT:
             return await m.reply_text(m.lang["play_queue_full"].format(config.QUEUE_LIMIT))
 
-        force = m.command[0].endswith("force") or (
+        cmd0 = m.command[0].lower()
+        force = "force" in cmd0 or "fplay" in cmd0 or (
             len(m.command) > 1 and "-f" in m.command[1]
         )
-        video = m.command[0][0] == "v" and config.VIDEO_PLAY
+        video = (cmd0.startswith("v") or "vplay" in cmd0 or (len(m.command) > 1 and "-v" in m.command[1])) and config.VIDEO_PLAY
         url = utils.get_url(m)
         if url and yt.invalid(url):
             return await m.reply_text(m.lang["play_not_found"].format(config.SUPPORT_CHAT))
