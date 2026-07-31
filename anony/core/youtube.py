@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 shnwazdeveloper
+# Copyright (c) 2025 shnwazdeveloper
 # Licensed under the MIT License.
 # This file is part of Swati Music
 
@@ -90,6 +90,39 @@ class YouTube:
 
     async def search(self, query: str, m_id: int, video: bool = False) -> Track | None:
         try:
+            api_endpoint = f"https://shnwazdev-ytmusicapi.vercel.app/api/search?q={query}"
+            async with aiohttp.ClientSession() as session:
+                async with session.get(api_endpoint, timeout=5) as resp:
+                    if resp.status == 200:
+                        json_data = await resp.read()
+                        import json
+                        res = json.loads(json_data)
+                        if res.get("ok") and res.get("data"):
+                            for item in res["data"]:
+                                if item.get("videoId"):
+                                    vid_id = item.get("videoId")
+                                    v_title = item.get("title") or query
+                                    v_duration = item.get("duration") or "0:00"
+                                    v_thumbs = item.get("thumbnails", [])
+                                    thumb_url = v_thumbs[-1].get("url") if v_thumbs and isinstance(v_thumbs[-1], dict) else f"https://i.ytimg.com/vi/{vid_id}/hqdefault.jpg"
+                                    v_artists = item.get("artistsText") or "YouTube Music"
+                                    
+                                    return Track(
+                                        id=vid_id,
+                                        channel_name=v_artists,
+                                        duration=v_duration,
+                                        duration_sec=utils.to_seconds(v_duration),
+                                        message_id=m_id,
+                                        title=v_title[:25],
+                                        thumbnail=thumb_url,
+                                        url=f"https://www.youtube.com/watch?v={vid_id}",
+                                        view_count=str(item.get("views") or ""),
+                                        video=video,
+                                    )
+        except Exception as err:
+            logger.warning(f"shnwazdev-ytmusicapi search error: {err}")
+
+        try:
             _search = VideosSearch(query, limit=1, with_live=False)
             results = await _search.next()
         except Exception:
@@ -133,13 +166,6 @@ class YouTube:
         return tracks
 
     async def download(self, video_id: str, video: bool = False) -> str | None:
-        if self.api:
-            try:
-                if file_path := await self.api.download(video_id, video):
-                    return file_path
-            except Exception as api_err:
-                logger.warning(f"NexGenApi download error: {api_err}")
-
         url = self.base + video_id
         os.makedirs("downloads", exist_ok=True)
 
