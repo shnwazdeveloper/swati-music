@@ -111,7 +111,7 @@
     "restarting": "Restarting...",
     "restarted": "Restart in progress. Don't worry, it'll only take a few seconds… maybe.",
     "start_pm": "<tg-emoji emoji-id=\"5454390891466726015\">👋</tg-emoji> Hey {0},\n\n<tg-emoji emoji-id=\"5316631095347788915\">🎵</tg-emoji> This is <b>Swati Music</b>!\n\nA fast and powerful music bot for your Telegram groups.\n\n<tg-emoji emoji-id=\"6292037800564887046\">🤍</tg-emoji> <i>Click the buttons below to control the bot.</i>",
-    "start_gp": "<tg-emoji emoji-id=\"5454390891466726015\">👋</tg-emoji> Hey!\n\n<tg-emoji emoji-id=\"5316631095347788915\">🎵</tg-emoji> This is <b>Swati Music</b>\n\n<u><b>A fast and powerful music bot for your group.</b></u>\n\n<tg-emoji emoji-id=\"6292037800564887046\">🤍</tg-emoji>",
+    "start_gp": "🐥<b>Swati Music</b> is alive.\n\nJust a music player bot :)",
     "start_settings": "<u><b>{0} settings</b></u>\n\nClick the buttons below to change this chat's current settings.",
     "stats_fetching": "Fetching stats...",
     "stats_sudo": "\n\n<b>Modules:</b> {0}\n<b>Platform:</b> {1}\n<b>Ram usage:</b> <code>{2}MB | {3}GB</code>\n<b>CPU usage:</b> <code>{4}% ({5} cores)</code>\n<b>Storage:</b> <code>{6}GB | {7}GB</code>\n\n<b>Python:</b> <code>v{8}</code>\n<b>Pyrogram:</b> <code>v{9}</code>\n<b>PyTgCalls:</b> <code>v{10}</code>",

@@ -135,23 +135,36 @@ class Inline:
     def start_key(
         self, lang: dict, private: bool = False
     ) -> types.InlineKeyboardMarkup:
-        rows = [
-            [
-                self.ikb(
-                    text=lang["add_me"],
-                    url=f"https://t.me/{app.username}?startgroup=true",
-                )
-            ],
-            [
-                self.ikb(text=lang["help"], callback_data="help"),
-            ],
-            [
-                self.ikb(
-                    text=lang["source"],
-                    url="https://github.com/shnwazdeveloper/swati-music",
-                )
-            ],
-        ]
+        if private:
+            rows = [
+                [
+                    self.ikb(
+                        text=lang["add_me"],
+                        url=f"https://t.me/{app.username}?startgroup=true",
+                    )
+                ],
+                [
+                    self.ikb(text=lang["help"], callback_data="help"),
+                ],
+                [
+                    self.ikb(
+                        text=lang["source"],
+                        url="https://github.com/shnwazdeveloper/swati-music",
+                    )
+                ],
+            ]
+        else:
+            rows = [
+                [
+                    self.ikb(
+                        text=lang["add_me"],
+                        url=f"https://t.me/{app.username}?startgroup=true",
+                    )
+                ],
+                [
+                    self.ikb(text=lang["language"], callback_data="language"),
+                ],
+            ]
         return self.ikm(rows)
 
     def yt_key(self, link: str) -> types.InlineKeyboardMarkup:
