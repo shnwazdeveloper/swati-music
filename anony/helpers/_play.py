@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 shnwazdeveloper
+# Copyright (c) 2025 shnwazdeveloper
 # Licensed under the MIT License.
 # This file is part of Swati Music
 
@@ -91,13 +91,13 @@ def checkUB(play):
                         )
 
                 umm = await m.reply_text(m.lang["play_invite"].format(app.name))
-                await asyncio.sleep(2)
+                await asyncio.sleep(0.3)
                 try:
                     await client.join_chat(invite_link)
                 except errors.UserAlreadyParticipant:
                     pass
                 except errors.InviteRequestSent:
-                    await asyncio.sleep(2)
+                    await asyncio.sleep(0.5)
                     try:
                         await app.approve_chat_join_request(chat_id, client.id)
                     except errors.HideRequesterMissing:

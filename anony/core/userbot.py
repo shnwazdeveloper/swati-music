@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 shnwazdeveloper
+# Copyright (c) 2025 shnwazdeveloper
 # Licensed under the MIT License.
 # This file is part of Swati Music
 
@@ -58,10 +58,6 @@ class Userbot(Client):
         client.username = ub.me.username
         client.mention = ub.me.mention
         self.clients.append(client)
-        try:
-            await ub.join_chat("NexGenBots")
-        except Exception:
-            pass
         logger.info(f"Assistant {num} started as @{client.username}")
 
     async def boot(self):

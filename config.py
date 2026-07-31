@@ -25,9 +25,7 @@ class Config:
         self.SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/fallenx")
         self.SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/DevilsHeavenMF")
 
-        self.API_URL = getenv("API_URL", "https://pvtz.nexgenbots.xyz")
-        self.VIDEO_API_URL = getenv("VIDEO_API_URL", "https://api.video.nexgenbots.xyz")
-        self.API_KEY = getenv("API_KEY", getenv("30DxNexGenBotseb4bc6", None))
+        self.SHNWAZ_API = getenv("SHNWAZ_API", "https://shnwazdev-ytmusicapi.vercel.app/")
 
         self.AUTO_LEAVE: bool = getenv("AUTO_LEAVE", "False").lower() == "true"
         self.AUTO_END: bool = getenv("AUTO_END", "False").lower() == "true"

@@ -14,12 +14,11 @@ from pathlib import Path
 from py_yt import Playlist, VideosSearch
 
 from anony import config, logger
-from anony.helpers import NexGenApi, Track, utils
+from anony.helpers import Track, utils
 
 
 class YouTube:
     def __init__(self):
-        self.api = None
         self.base = "https://www.youtube.com/watch?v="
         self.cookies = []
         self.checked = False
@@ -35,12 +34,6 @@ class YouTube:
             r"(?!/(watch\?v=[A-Za-z0-9_-]{11}|shorts/[A-Za-z0-9_-]{11}"
             r"|playlist\?list=PL[A-Za-z0-9_-]+|[A-Za-z0-9_-]{11}))\S*"
         )
-        if config.API_URL and config.VIDEO_API_URL and config.API_KEY:
-            self.api = NexGenApi(
-                config.API_URL,
-                config.API_KEY,
-                config.VIDEO_API_URL
-            )
 
     def get_cookies(self):
         os.makedirs(self.cookie_dir, exist_ok=True)
@@ -182,11 +175,12 @@ class YouTube:
             "no_warnings": True,
             "overwrites": False,
             "nocheckcertificate": True,
-            "socket_timeout": 5,
-            "concurrent_fragment_downloads": 10,
-            "buffersize": 1024 * 1024,
-            "retries": 2,
-            "fragment_retries": 2,
+            "socket_timeout": 3,
+            "concurrent_fragment_downloads": 16,
+            "buffersize": 2 * 1024 * 1024,
+            "http_chunk_size": 10485760,
+            "retries": 1,
+            "fragment_retries": 1,
             "extractor_retries": 1,
             "cachedir": False,
             "extractor_args": {
