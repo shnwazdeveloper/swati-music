@@ -170,7 +170,7 @@ class YouTube:
         os.makedirs("downloads", exist_ok=True)
 
         for downloaded_file in Path("downloads").glob(f"{video_id}.*"):
-            if downloaded_file.stat().st_size > 0:
+            if downloaded_file.stat().st_size > 0 and downloaded_file.suffix not in [".part", ".ytdl"]:
                 return str(downloaded_file)
 
         cookie = self.get_cookies()
@@ -223,7 +223,7 @@ class YouTube:
                     logger.warning("Download failed: %s", ex)
                     return None
             for dl in Path("downloads").glob(f"{video_id}.*"):
-                if dl.stat().st_size > 0:
+                if dl.stat().st_size > 0 and dl.suffix not in [".part", ".ytdl"]:
                     return str(dl)
             return None
 
